@@ -1,18 +1,29 @@
 package jp.co.litemo.sm3.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-
-import static org.junit.jupiter.api.Assertions.*;
+import jakarta.validation.ValidatorFactory;
 
 public class EmployeeTest {
 
-	@Autowired
-    Validator validator;
+    private Validator validator;
 
-	@Test
+    @BeforeEach
+    public void setUp() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
+
+    @Test
     public void testEmployeeCreation() {
         Employee employee = new Employee();
         employee.setEmployeeNo("12345");
@@ -31,6 +42,7 @@ public class EmployeeTest {
         Employee employee = new Employee();
         employee.setEmail("invalid-email");
         
-        assertNotEquals("invalid-email", employee.getEmail());
+        Set<ConstraintViolation<Employee>> violations = validator.validate(employee);
+        assertFalse(violations.isEmpty(), "Expected validation errors for invalid email");
     }
 }

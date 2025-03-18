@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+
 /**
  * 元のファイル名: /Domain/DomainObject/Employee.vb
  * このクラスは従業員情報を表すエンティティクラスです。
